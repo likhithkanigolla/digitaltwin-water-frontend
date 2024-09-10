@@ -19,6 +19,7 @@ import '../App.css';
 
 
 // Coordinates for Nodes 
+let backendAPI =  "http://smartcitylivinglab.iiit.ac.in:7890";
 const dt_node_1 = [17.44773337470836, 78.34853368169597];
 const dt_node_2 = [17.44711288989055, 78.34927584903512];
 const dt_node_3 = [17.446087802969153, 78.35051801020884];
@@ -379,7 +380,7 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
     const postPercentDist = async (arrayToSend, sectionNumber) => {
       try {
         const response = await axios.post('http://10.3.1.117:8080/percent', { array: arrayToSend , sectionNumber});
-        // const response = await axios.post('http://localhost:8080/percent', { array: arrayToSend , SectionNumber});
+        // const response = await axios.post('${backendAPI}/percent', { array: arrayToSend , SectionNumber});
         console.log('Array sent to backend:', arrayToSend);
       } catch (error) {
         console.error('Error sending array to backend:', error);
@@ -684,7 +685,7 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
     const getInitialNodeVal = async () => {
       try {
         const response = await axios.post('http://10.3.1.117:8080/nodeVal');
-        // const response = await axios.post('http://localhost:8080/nodeVal');
+        // const response = await axios.post('${backendAPI}/nodeVal');
         const temp = response.data['nodeVal_temp']
         const utds = response.data['nodeVal_utds'];
         const ctds = response.data['nodeVal_ctds']
@@ -838,7 +839,7 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
       try {
         // Define your soil endpoint
         const soilEndpoint = 'http://10.3.1.117:8080/soil'; 
-        // const soilEndpoint = 'http://localhost:8080/soil';
+        // const soilEndpoint = '${backendAPI}/soil';
     
         // Send soil container count to the backend
         await axios.post(soilEndpoint, soilArray );

@@ -12,6 +12,7 @@ import NavigationBar from '../components/Navigation/Navigation';
 
 
 function ActuationPage() {
+  let backendAPI =  "http://smartcitylivinglab.iiit.ac.in:7890"
   const [isOn, setIsOn] = useState({
     valve1: true,
     valve2: false,
@@ -46,7 +47,7 @@ function ActuationPage() {
       // Dynamically generate array based on the state of valve1 and valve3
       const arrayToSend = [isOn.valve1 ? 0 : 1, isOn.valve3 ? 0 : 1];
 
-      const response = await axios.post('http://localhost:8080/actuation', { array: arrayToSend });
+      const response = await axios.post(`${backendAPI}/actuation`, { array: arrayToSend });
       console.log('Array sent to backend:', arrayToSend);
     } catch (error) {
       console.error('Error sending array to backend:', error);
@@ -76,7 +77,7 @@ function ActuationPage() {
   const fetchNodeData = async (nodeName) => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:8080/data/${nodeName}`);
+      const response = await axios.get(`${backendAPI}/data/${nodeName}`);
       const data = response.data;
       const dataArray = Object.entries(data).map(([key, value]) => ({
         parameter: key,
