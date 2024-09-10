@@ -19,6 +19,7 @@ import '../App.css';
 
 
 // Coordinates for Nodes 
+let backendAPI =  "http://smartcitylivinglab.iiit.ac.in:7890";
 const dt_node_1 = [17.44773337470836, 78.34853368169597];
 const dt_node_2 = [17.44711288989055, 78.34927584903512];
 const dt_node_3 = [17.446087802969153, 78.35051801020884];
@@ -377,10 +378,13 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
 
     //NEW VALUE OF VIRTUAL NODE
     const postPercentDist = async (arrayToSend, sectionNumber) => {
+      console.log("Array to send:", arrayToSend);
       try {
-        const response = await axios.post('http://10.3.1.117:8080/percent', { array: arrayToSend , sectionNumber});
-        // const response = await axios.post('http://localhost:8080/percent', { array: arrayToSend , SectionNumber});
+        // const response = await axios.post('http://10.3.1.117:8080/percent', { array: arrayToSend , sectionNumber});
+        const response = await axios.post(`${backendAPI}/percent`, { array: arrayToSend , sectionNumber});
         console.log('Array sent to backend:', arrayToSend);
+        console.log("response percent:", response);
+
       } catch (error) {
         console.error('Error sending array to backend:', error);
       }
@@ -540,7 +544,7 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.post('http://10.3.1.117:8080/real-time-location');
+          const response = await axios.post(`${backendAPI}/real-time-location`);
           const data = response.data;
           // console.log("real time loc = ", data)
           setRealTimeLocation(data);
@@ -561,7 +565,7 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
     useEffect(() => {
       const getAckFrontend = async () => {
         try {
-          const response = await axios.post('http://10.3.1.117:8080/acknowledgment');
+          const response = await axios.post(`${backendAPI}/acknowledgment`);
           const data = response.data;
           // console.log("ack = ", data)
   
@@ -585,6 +589,8 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
     const buildPopupContent = (index) => {
       const marker = markers[index];
       const sectionNumber = getSectionNumber(marker.position);
+      console.log("Marker:", marker);
+    
       if (marker) {
         const flow = calculateFlow();
         const isSolenoidOn = isSolenoidOnForSection(sectionNumber);
@@ -592,8 +598,16 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
         const latitude = clickedLatLng?.latitude || 'N/A'; // Use optional chaining to handle null or undefined
         const longitude = clickedLatLng?.longitude || 'N/A';
     
+        console.log("Marker clickedLatLng:", clickedLatLng);
+        console.log("Marker properties:", {
+          temperature: marker.temperature,
+          u_tds: marker.u_tds,
+          total_flow: marker.total_flow,
+          v_tds: marker.v_tds
+        });
+    
         // Display all the parameters when the solenoid is on
-        const temperatureValue = isSolenoidOn ? (marker.temparature || 'N/A') : '0';
+        const temperatureValue = isSolenoidOn ? (marker.temperature || 'N/A') : '0';
         const uTDSValue = isSolenoidOn ? (marker.u_tds || 'N/A') : '0';
         const totalFlowValue = isSolenoidOn ? (marker.total_flow || 'N/A') : '0';
         const vTDSValue = isSolenoidOn ? (marker.v_tds || 'N/A') : '0';
@@ -601,10 +615,6 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
         return (
           <div>
             {`Marker ${index + 1} - Predicted Values:`}
-            {/* <br />
-            Latitude: {marker.position[0].toFixed(6)}
-            <br />
-            Longitude: {marker.position[1].toFixed(6)} */}
             <br />
             Calculated Temperature: {temperatureValue}
             <br />
@@ -629,7 +639,6 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
         );
       }
     };
-    
   
     const buildsandPopupContent = (index) => {
       const marker = sandmarkers[index];
@@ -683,8 +692,8 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
 
     const getInitialNodeVal = async () => {
       try {
-        const response = await axios.post('http://10.3.1.117:8080/nodeVal');
-        // const response = await axios.post('http://localhost:8080/nodeVal');
+        // const response = await axios.post('http://10.3.1.117:8080/nodeVal');
+        const response = await axios.post(`${backendAPI}/nodeVal`);
         const temp = response.data['nodeVal_temp']
         const utds = response.data['nodeVal_utds'];
         const ctds = response.data['nodeVal_ctds']
@@ -823,7 +832,8 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
     const sendsandContainerCount = async (sandArray) => {
       try {
         // Define your sand endpoint
-        const sandEndpoint = 'http://10.3.1.117:8080/sand'; // Replace with the actual sand endpoint
+        // const sandEndpoint = 'http://10.3.1.117:8080/sand'; // Replace with the actual sand endpoint
+        const sandEndpoint = `${backendAPI}/sand`;
     
         // Send sand container count to the backend
         await axios.post(sandEndpoint,sandArray );
@@ -837,8 +847,8 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
     const sendSoilContainerCount = async (soilArray) => {
       try {
         // Define your soil endpoint
-        const soilEndpoint = 'http://10.3.1.117:8080/soil'; 
-        // const soilEndpoint = 'http://localhost:8080/soil';
+        // const soilEndpoint = 'http://10.3.1.117:8080/soil'; 
+        const soilEndpoint = `${backendAPI}/soil`;
     
         // Send soil container count to the backend
         await axios.post(soilEndpoint, soilArray );
@@ -884,13 +894,13 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
   
       const nodes = ["Node-1", "Node-2", "Node-3"];
       for (let i = 0; i < nodes.length; i++) {
-        let url = "http://10.3.1.117:8080/desc/" + nodes[i];
+        let url = `${backendAPI}/desc/` + nodes[i];
         axios.get(url).then((response) => {
           data[nodes[i]] = response.data;
         });
       }
     }, [mapRef.current]);
-    
+  
     const [popupContent, setPopupContent] = useState(null);
 
 
