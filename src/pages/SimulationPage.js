@@ -592,11 +592,22 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
         const latitude = clickedLatLng?.latitude || 'N/A'; // Use optional chaining to handle null or undefined
         const longitude = clickedLatLng?.longitude || 'N/A';
     
+        console.log("Marker clickedLatLng:", clickedLatLng);
+        console.log("Marker Values", marker);
+        console.log("Marker properties:", {
+          temperature: marker.temparature,
+          u_tds: marker.u_tds,
+          c_tds: marker.ctds,
+          v_tds: marker.v_tds
+        });
+    
         // Display all the parameters when the solenoid is on
         const temperatureValue = isSolenoidOn ? (marker.temparature || 'N/A') : '0';
         const uTDSValue = isSolenoidOn ? (marker.u_tds || 'N/A') : '0';
-        const totalFlowValue = isSolenoidOn ? (marker.total_flow || 'N/A') : '0';
+        const comTDSValue = isSolenoidOn ? (marker.c_tds || 'N/A') : '0';
         const vTDSValue = isSolenoidOn ? (marker.v_tds || 'N/A') : '0';
+
+        console.log("Temperature Value:", temperatureValue);
     
         return (
           <div>
@@ -610,7 +621,7 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
             <br />
             Calculated TDS Values: {uTDSValue}
             <br />
-            Calculated Total Flow: {totalFlowValue}
+            Compensated TDS Value: {comTDSValue}
             <br />
             Calculated v_TDS: {vTDSValue}
             <br />
@@ -712,7 +723,7 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
           position: [parseFloat(latitudeInput), parseFloat(longitudeInput)],
           temparature: initialNodeVal ? initialNodeVal.temp || 0 : 0,
           u_tds: initialNodeVal ? initialNodeVal.utds || 0 : 0,
-          total_flow: initialNodeVal ? initialNodeVal.ctds || 0 : 0,
+          c_tds: initialNodeVal ? initialNodeVal.ctds || 0 : 0,
           v_tds: initialNodeVal ? initialNodeVal.vol || 0 : 0,
           nodeVal_utds: initialNodeVal ? initialNodeVal.utds || 0 : 0,
         };
@@ -758,7 +769,7 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
           position: [parseFloat(latitudeInput), parseFloat(longitudeInput)],
           temparature: initialNodeVal ? initialNodeVal.temp || 0 : 0,
           u_tds: initialNodeVal ? initialNodeVal.utds || 0 : 0,
-          total_flow: initialNodeVal ? initialNodeVal.ctds || 0 : 0,
+          c_tds: initialNodeVal ? initialNodeVal.ctds || 0 : 0,
           v_tds: initialNodeVal ? initialNodeVal.vol || 0 : 0,
           nodeVal_utds: initialNodeVal ? initialNodeVal.utds || 0 : 0,
         };
@@ -792,7 +803,7 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
           position: [parseFloat(latitudeInput), parseFloat(longitudeInput)],
           temparature: initialNodeVal ? initialNodeVal.temp || 0 : 0,
           u_tds: initialNodeVal ? initialNodeVal.utds || 0 : 0,
-          total_flow: initialNodeVal ? initialNodeVal.ctds || 0 : 0,
+          c_tds: initialNodeVal ? initialNodeVal.ctds || 0 : 0,
           v_tds: initialNodeVal ? initialNodeVal.vol || 0 : 0,
           nodeVal_utds: initialNodeVal ? initialNodeVal.utds || 0 : 0,
         };
