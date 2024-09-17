@@ -43,10 +43,10 @@ const NavigationBar = () => {
           value={selectedPage}
           onChange={handleNavigation}
         >
-          <option value="/">Dashboard</option>
-          <option value="/actuation">Actuation</option>
-          <option value="/simulation">Simulation</option>
-          <option value="/3d">3D</option>
+          <option value="/dt_waternetwork/test">Dashboard</option>
+          <option value="/dt_waternetwork/test/actuation">Actuation</option>
+          <option value="/dt_waternetwork/test/simulation">Simulation</option>
+          <option value="/dt_waternetwork/test/3d">3D</option>
         </select>
       </nav>
     </div>

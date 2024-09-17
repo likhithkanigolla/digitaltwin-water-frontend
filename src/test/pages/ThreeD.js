@@ -85,6 +85,25 @@ const ThreeD = () => {
     }, 3000); // 3s delay to stop motor sound
   };
 
+  const handleReset = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0; // Restart video from the beginning
+      videoRef.current.play().catch((error) => {
+        console.error("Error playing video:", error);
+      });
+    }
+    setTimeout(() => {
+      if (videoRef.current) {
+      videoRef.current.currentTime = 41.5; // Seek to 41 seconds
+      videoRef.current.pause();
+      console.log("Video paused at ", videoRef.current.currentTime);
+      }
+    }, 41600);
+
+
+    setIsMotorOn(false); // Reset motor state
+  };
+
   return (
     <div>
       <NavigationBar />
@@ -109,6 +128,9 @@ const ThreeD = () => {
           </div>
           <div className="btn" onClick={handleMotorOff}>
             Motor Off
+          </div>
+          <div className="btn" onClick={handleReset}>
+            Reset
           </div>
         </div>
         <video
