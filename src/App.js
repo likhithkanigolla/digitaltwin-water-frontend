@@ -14,6 +14,7 @@ import {Routes, Route} from "react-router-dom";
 // import axios from 'axios';
 import './App.css';
 import SimulationPage from './pages/SimulationPage';
+import ThreeD from './pages/ThreeD';
 
 function App(){
   return (
@@ -22,6 +23,7 @@ function App(){
       <Route path='/' element={<Dashboard />} />
       <Route path='/simulation' element={<SimulationPage />} />
       <Route path='actuation' element={<ActuationPage/>} />
+      <Route path='/3d'element={<ThreeD />}/>
     </Routes>
     </>
   )

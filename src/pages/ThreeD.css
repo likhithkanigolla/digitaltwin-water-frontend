@@ -1,0 +1,23 @@
+.btn {
+    padding: 5px;
+    margin-top: 40px;
+    margin-left: 5px;
+    margin-right: 10px;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    border: solid 2px #252525;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn:hover {
+    background-color: #5d8bcb5c;
+    /* cursor: pointer; */
+}
+
+.video{
+    pointer-events: none;
+}
