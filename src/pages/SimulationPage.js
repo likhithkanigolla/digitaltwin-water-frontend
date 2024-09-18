@@ -1184,9 +1184,7 @@ const distanceToLineFromPoint = (point, lineStart, lineEnd) => {
             </tbody>
           </table>
         </div>
-        <Link to="/actuation">
-          <button style={{ display: 'block', margin: 'auto', marginTop: '10px', padding: '10px' }} >Go to Actuation Page</button>
-        </Link>
+       
       </div>
     );
 }
